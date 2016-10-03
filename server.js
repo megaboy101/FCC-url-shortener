@@ -1,27 +1,22 @@
-var mongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
 var express = require('express');
-var url = "mongodb://megaboy101:thejacob1@ds013916.mlab.com:13916/url-shortener";
 var app = express();
+var Schema = mongoose.Schema;
+var url = "mongodb://megaboy101:thejacob1@ds013916.mlab.com:13916/url-shortener";
 
-mongoClient.connect(url, function(err, db){
-    
-    var shortened = db.collection('shortened');
-    
-    app.get('/', function(req, res){
-       shortened.insert({key: "Success!"})
-       
-       shortened.find({key: "Success!"}).toArray(function(err, results){
-           if (results){
-               res.end(results);
-           }
-           else {
-               res.end("error");
-            }
-       });
-    });
-   
-    db.close();
+mongoose.connect(url);
+
+var urlSchema = new Schema({
+    url: String,
+    count: Number
 });
+
+urlSchema.methods.add = function(){
+    this.count++;
+    return this.count;
+}
+
+var UrlEntry = mongoose.model('urlEntry', urlSchema);
 
 
 
