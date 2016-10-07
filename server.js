@@ -49,8 +49,13 @@ app.get('/new/*', function(req, res){
         UrlEntry.find({"short": address})
         .exec(function(err, entry){
             if (err) throw err;
-            res.redirect(entry[0].url);
             
+            if (entry.length !== 1){
+                res.json({"error": "Invalid URL"});
+            }
+            else {
+                res.redirect(entry[0].url);
+            }
         });
     }
     // If param is invalid
