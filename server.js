@@ -65,7 +65,7 @@ app.get('/new/*', function(req, res){
 });
 
 app.get('/', function(req, res){
-    res.end("Try a url ^^^");
+    res.end("Try /new/ + a url  ^^^");
 });
 
 
